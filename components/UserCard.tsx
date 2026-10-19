@@ -20,7 +20,7 @@ interface UserCardProps {
 
 export function UserCard({ user }: UserCardProps) {
   return (
-    <Card className="relative mx-auto w-full max-w-sm pt-0">
+    <Card className="relative mx-auto w-full p-5 mt-5">
       <div className="absolute inset-0 z-30 aspect-video bg-black/35" />
       <CardHeader>
         <CardTitle>{user.name}</CardTitle>
