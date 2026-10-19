@@ -6,6 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+import Link from "next/link"
 
 interface IUser {
   _id: string
@@ -20,14 +21,15 @@ interface UserCardProps {
 
 export function UserCard({ user }: UserCardProps) {
   return (
-    <Card className="relative mx-auto w-full p-5 mt-5">
-      <div className="absolute inset-0 z-30 aspect-video bg-black/35" />
+    <Card className="relative mx-auto mt-5 w-full p-5">
       <CardHeader>
         <CardTitle>{user.name}</CardTitle>
         <CardDescription>{user.email}</CardDescription>
       </CardHeader>
       <CardFooter>
-        <Button className="w-full">View Event</Button>
+        <Link href={`/users/${user._id}`}>
+          <Button className="w-full cursor-pointer">View Event</Button>
+        </Link>
       </CardFooter>
     </Card>
   )

@@ -22,7 +22,7 @@ const UsersPage = async () => {
       </h2>
       <div>
         <Link href="/new">
-          <Button className="my-5 cursor-pointer rounded-lg bg-[#aaa] px-4 py-1 text-black">
+          <Button className="my-5 cursor-pointer rounded-lg bg-[#ddd] px-4 py-1 text-black">
             Add New User
           </Button>
         </Link>
