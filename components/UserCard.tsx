@@ -1,3 +1,5 @@
+"use client"
+
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -7,6 +9,7 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 
 interface IUser {
   _id: string
@@ -20,16 +23,41 @@ interface UserCardProps {
 }
 
 export function UserCard({ user }: UserCardProps) {
+  const { _id } = user
+  const router = useRouter()
+
+  const handleDeleteUser = async (id: string) => {
+    console.log("Delete Id", _id)
+
+    const res = await fetch(`http://localhost:5000/users/${id}`, {
+      method: "DELETE",
+    })
+    const afterDelete = await res.json()
+
+    if (afterDelete.deleteCount > 0) {
+      console.log("User delete successfully")
+      router.refresh()
+    }
+  }
+  
   return (
-    <Card className="relative mx-auto mt-5 w-full p-5">
+    <Card className="relative mx-auto mt-5 w-full">
       <CardHeader>
         <CardTitle>{user.name}</CardTitle>
         <CardDescription>{user.email}</CardDescription>
       </CardHeader>
       <CardFooter>
         <Link href={`/users/${user._id}`}>
-          <Button className="w-full cursor-pointer">View Event</Button>
+          <Button className="w-full cursor-pointer">View Details</Button>
         </Link>
+        <Button className="mx-2 cursor-pointer">Edit</Button>
+        <Button
+          onClick={() => handleDeleteUser(_id)}
+          className="cursor-pointer"
+          variant="destructive"
+        >
+          Delete
+        </Button>
       </CardFooter>
     </Card>
   )
