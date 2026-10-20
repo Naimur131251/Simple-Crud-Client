@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/card"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
+import { UpdateUserDialog } from "./UpdateUserDialog"
 
 interface IUser {
   _id: string
@@ -39,7 +40,7 @@ export function UserCard({ user }: UserCardProps) {
       router.refresh()
     }
   }
-  
+
   return (
     <Card className="relative mx-auto mt-5 w-full">
       <CardHeader>
@@ -50,7 +51,7 @@ export function UserCard({ user }: UserCardProps) {
         <Link href={`/users/${user._id}`}>
           <Button className="w-full cursor-pointer">View Details</Button>
         </Link>
-        <Button className="mx-2 cursor-pointer">Edit</Button>
+        <UpdateUserDialog user={user} />
         <Button
           onClick={() => handleDeleteUser(_id)}
           className="cursor-pointer"
