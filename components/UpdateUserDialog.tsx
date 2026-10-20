@@ -87,9 +87,13 @@ export function UpdateUserDialog({ user }: UserCardProps) {
                 </Button>
               }
             />
-            <Button type="submit" className="cursor-pointer">
-              Save changes
-            </Button>
+            <DialogClose
+              render={
+                <Button type="submit" className="cursor-pointer">
+                  Save changes
+                </Button>
+              }
+            />
           </DialogFooter>
         </form>
       </DialogContent>
