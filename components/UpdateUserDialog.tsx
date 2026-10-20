@@ -12,6 +12,7 @@ import {
 import { Field, FieldGroup } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { useRouter } from "next/navigation"
 
 interface IUser {
   _id: string
@@ -24,17 +25,43 @@ interface UserCardProps {
 }
 
 export function UpdateUserDialog({ user }: UserCardProps) {
+  const router = useRouter()
+  const handleUpdateUser = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    const formData = new FormData(e.currentTarget)
+    const updateUser = Object.fromEntries(formData.entries()) as Record<
+      string,
+      string
+    >
+
+    console.log(updateUser)
+
+    const res = await fetch(`http://localhost:5000/users/${user._id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updateUser),
+    })
+    const data = await res.json()
+    console.log(data)
+
+    if (data.modifiedCount > 0) {
+      console.log("User update successfully")
+      router.refresh()
+    }
+  }
   return (
     <Dialog>
-      <form>
-        <DialogTrigger
-          render={
-            <Button className="mx-2 cursor-pointer" variant="outline">
-              Edit
-            </Button>
-          }
-        />
-        <DialogContent className="sm:max-w-sm">
+      <DialogTrigger
+        render={
+          <Button className="mx-2 cursor-pointer" variant="outline">
+            Edit
+          </Button>
+        }
+      />
+      <DialogContent className="sm:max-w-sm">
+        <form onSubmit={handleUpdateUser}>
           <DialogHeader>
             <DialogTitle>Edit User</DialogTitle>
             <DialogDescription>
@@ -53,11 +80,19 @@ export function UpdateUserDialog({ user }: UserCardProps) {
             </Field>
           </FieldGroup>
           <DialogFooter>
-            <DialogClose render={<Button variant="outline">Cancel</Button>} />
-            <Button type="submit">Save changes</Button>
+            <DialogClose
+              render={
+                <Button variant="outline" className="cursor-pointer">
+                  Cancel
+                </Button>
+              }
+            />
+            <Button type="submit" className="cursor-pointer">
+              Save changes
+            </Button>
           </DialogFooter>
-        </DialogContent>
-      </form>
+        </form>
+      </DialogContent>
     </Dialog>
   )
 }
